@@ -16,6 +16,8 @@ module.exports.getAllAuthor = (req, res) => {
 
 //CREATE NEW
 module.exports.createNewAuthor = (req, res) => {
+    //const {name} = req.body
+    console.log(req.body)
     Author.create(req.body)
     .then(brandNewAuthor => res.json(brandNewAuthor))
     .catch((err) => {

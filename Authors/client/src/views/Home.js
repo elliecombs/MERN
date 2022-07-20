@@ -6,7 +6,7 @@ import AuthorList  from '../components/AuthorList';
 
 const Home = (props) =>{
     const [loaded, setLoaded] = useState(false); 
-    const [errors, setErrors] = useState([]);
+    const [errors, setErrors] = useState();
     const [authorList, setAuthorList] = useState([]);
     
     //Get Authors List
@@ -24,24 +24,29 @@ const Home = (props) =>{
 
     //Create Author 
     const CreateAuthor = (author) => {
+            console.log('From Home', author)
             axios
                 //argument: Route we are posting to
                 .post(`http://localhost:8000/api/author`, {
                     //argument: Data we are posting to
-                author,
+                name: author,
                 })
                 .then((res) => {
-                    console.log(res.data);
+                    console.log("CreateAuthor", res.data);
                     //Spread operator 
                     setAuthorList([...authorList, res.data]);
                 })
                 .catch((err) => {
-                    const errorResponse = err.response.data.errors;
-                    const errorArray = [];
-                        for (let key of Object.keys(errorResponse)) {
-                            errorArray.push(errorResponse[key].message)
-                        }
-                        setErrors(errorArray)
+                    // const errorResponse = err.response.data.errors;
+                    // console.log("error", err.response)
+                    // const errorArray = [];
+                    //     for (let key of Object.keys(errorResponse)) {
+                    //         errorArray.push(errorResponse[key].message)
+                    //     }
+                    //     setErrors(errorArray)
+                    console.log("error", err)
+                    console.log("error response", err.response.data.error.errors.name.message)
+                    setErrors(err.response.data.errors)
                         console.log('Post error', err);
                 })
         };
@@ -50,9 +55,10 @@ const Home = (props) =>{
     const removeFromDom = id => {
         setAuthorList(authorList.filter(AuthorList => AuthorList._id !== id));
     }
+
     return(
         <>
-        <Form initialName = "" onSubmitProps = { CreateAuthor } errors = {errors} />
+        <Form initialName = "" onSubmitProps= { CreateAuthor } errors = {errors}  />
         {/* If the author list loads it will display and won't show   */}
         { loaded && <AuthorList authorList = {authorList} removeFromDom={removeFromDom} setAuthorList = {setAuthorList} /> }
         </>

@@ -1,13 +1,22 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import axios from 'axios';
 import {useNavigate, useParams} from "react-router-dom";
-import Form from '../components/Form';
+import Form from './Form';
 
 const Update = (props) => {
     const { id } = useParams(); 
     const [name, setName] = useState("");
+    const [loaded, setLoaded] = useState(false);
     const navigate = useNavigate();
     const [errors, setErrors] = useState([]);
+    useEffect( () => {
+        axios.get(`http://localhost:8000/api/author/${id}`)
+        .then(res => {
+            setName(res.data.name);
+            setLoaded(true);
+        })
+        .catch(err => console.log(err));
+    }, []);
 
     const updateAuthor = (author) => {
         console.log(author);
@@ -31,7 +40,7 @@ const Update = (props) => {
     return (
         <div>
             <h1>Update an Author</h1>
-            <Form updateForm = {true} id = {id} onSubmitProp = {updateAuthor} errors = {errors} />
+            { loaded && <Form onSubmitProps = {updateAuthor} initialName={name} errors = {errors} /> }
         </div>
     )
 }
