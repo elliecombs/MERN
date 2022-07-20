@@ -13,12 +13,14 @@ const Author = (props) => {
         setName(initialName);
     }
 
-
     return (
+        <div>
+            <h1>Favorite Author</h1>
+            <header>We have quotes by:</header>
+
         <form onSubmit={onSubmitHandler}>
-        <header>Author</header>
             <div>
-            {errors.name ? <span>{ errors.name.message }</span>: null}
+            {errors?.name? <span>{ errors.name.message }</span>: null}
                 {/* {errors ? errors.map ((err, index) => <p key = {index} >{err}</p>):<p></p>
                 } */}
                 <p>
@@ -27,8 +29,9 @@ const Author = (props) => {
                 </p>
             </div>
         {/* ternary or if else statement (react return statement use ternary only) */}
-            <input value= "Submit" type="submit"/>
+            <input value= "Create" type="submit"/>
         </form>
+        </div>
     );
 };
 

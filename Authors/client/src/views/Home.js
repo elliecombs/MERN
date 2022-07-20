@@ -37,16 +37,9 @@ const Home = (props) =>{
                     setAuthorList([...authorList, res.data]);
                 })
                 .catch((err) => {
-                    // const errorResponse = err.response.data.errors;
-                    // console.log("error", err.response)
-                    // const errorArray = [];
-                    //     for (let key of Object.keys(errorResponse)) {
-                    //         errorArray.push(errorResponse[key].message)
-                    //     }
-                    //     setErrors(errorArray)
                     console.log("error", err)
                     console.log("error response", err.response.data.error.errors.name.message)
-                    setErrors(err.response.data.errors)
+                    setErrors(err.response.data.error.errors)
                         console.log('Post error', err);
                 })
         };
